@@ -1,1 +1,1 @@
-web: gunicorn gunicorn moto_api.wsgi
+web: gunicorn moto_api.wsgi
