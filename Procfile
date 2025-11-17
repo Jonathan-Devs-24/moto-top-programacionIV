@@ -1,0 +1,1 @@
+web: gunicorn gunicorn moto_api.wsgi

@@ -1,0 +1,12 @@
+# render.yaml
+
+services:
+  - type: web
+    name: API MOTO
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.wsgi
+    autoDeploy: true
+    repo: https://github.com/JoseAntonio-Dev/BackEnd-Api-To-Programmatically.git
