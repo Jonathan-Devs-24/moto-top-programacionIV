@@ -8,4 +8,3 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn moto_api.wsgi
     autoDeploy: true
-    repo: https://github.com/Jonathan-Devs-24/moto-top-programacionIV
