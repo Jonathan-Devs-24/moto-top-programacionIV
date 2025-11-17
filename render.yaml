@@ -4,7 +4,8 @@ services:
   - type: web
     name: api-moto
     env: python
+    region: oregon
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn moto_api.wsgi
     autoDeploy: true
-    plan: free
