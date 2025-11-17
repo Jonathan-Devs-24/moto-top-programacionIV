@@ -2,11 +2,9 @@
 
 services:
   - type: web
-    name: API MOTO
+    name: api-moto
     env: python
-    region: oregon
-    plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn backend.wsgi
+    startCommand: gunicorn moto_api.wsgi
     autoDeploy: true
-    repo: https://github.com/JoseAntonio-Dev/BackEnd-Api-To-Programmatically.git
+    plan: free
