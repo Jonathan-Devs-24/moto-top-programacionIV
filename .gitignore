@@ -28,4 +28,4 @@ Thumbs.db
 .env
 
 # Certificados SSL (si usás MySQL con Aiven)
-certs/
+moto_api/certs/ca.pem

@@ -13,20 +13,14 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
-from dotenv import load_dotenv
-load_dotenv()
-
-# Temporal, despues lo sacamos
 import tempfile
 
-ca_cert = os.getenv("AIVEN_CA_CERT")
-ca_path = None
-if ca_cert:
-    with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.pem') as f:
-        f.write(ca_cert)
-        ca_path = f.name
-# fin
 
+
+
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -101,6 +95,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'moto_api.wsgi.application'
 
 
+
+ca_cert_env = os.getenv("AIVEN_CA_CERT")
+
+if ca_cert_env:
+    temp_ca = tempfile.NamedTemporaryFile(delete=False, suffix=".pem")
+    temp_ca.write(ca_cert_env.replace("\\n", "\n").encode())
+    temp_ca.flush()
+    CA_CERT_PATH = temp_ca.name
+else:
+    CA_CERT_PATH = None
+
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -112,15 +118,12 @@ DATABASES = {
         'PASSWORD':os.getenv('AIVEN_PASSWORD'),
         'HOST': 'mysql-mototop-36526d8b-jonathanobregon2409-b0b4.c.aivencloud.com',
         'PORT': '19726',
-        'OPTIONS': {
-            'ssl': {
-                'ca': ca_path # temporal
-
-                #'ca': os.path.join(BASE_DIR, 'certs', 'ca.pem'),
-            }
-        }
+        "OPTIONS": {
+            "ssl": {"ca": CA_CERT_PATH} if CA_CERT_PATH else {}
+         },
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
