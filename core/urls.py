@@ -58,7 +58,4 @@ urlpatterns = [
 
     path('solicitud/<int:solicitud_id>/aceptar/', views.aceptar_solicitud),
 
-
-
-
 ] 

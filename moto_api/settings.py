@@ -16,6 +16,19 @@ from datetime import timedelta
 from dotenv import load_dotenv
 load_dotenv()
 
+# Temporal, despues lo sacamos
+import tempfile
+
+ca_cert = os.getenv("AIVEN_CA_CERT")
+ca_path = None
+if ca_cert:
+    with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.pem') as f:
+        f.write(ca_cert)
+        ca_path = f.name
+# fin
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -101,7 +114,9 @@ DATABASES = {
         'PORT': '19726',
         'OPTIONS': {
             'ssl': {
-                'ca': os.path.join(BASE_DIR, 'certs', 'ca.pem'),
+                'ca': ca_path # temporal
+
+                #'ca': os.path.join(BASE_DIR, 'certs', 'ca.pem'),
             }
         }
     }
