@@ -83,13 +83,25 @@ class ClienteMovilLocalType(DjangoObjectType):
         
 # Query compleja
 class Query(graphene.ObjectType):
+
     compras_por_cliente_movil_local = graphene.List(
+        CompraType,
+        dni=graphene.Int(required=True)
+    )
+
+    compras_por_cliente_movil_local2 = graphene.List(
         CompraType,
         dni=graphene.Int(required=False),
         cliente_id=graphene.Int(required=False)
     )
 
-    def resolve_compras_por_cliente_movil_local(self, info, dni=None, cliente_id=None):
+
+    def resolve_compras_por_cliente_movil_local(root, info, dni):
+        return Compra.objects.filter(
+        id_cliente_movil_local__dni_cliente_movil_local=dni
+       )
+
+    def resolve_compras_por_cliente_movil_local2(self, info, dni=None, cliente_id=None):
         if dni:
             cliente = ClienteMovilLocal.objects.filter(dni_cliente_movil_local=dni).first()
             if not cliente:
