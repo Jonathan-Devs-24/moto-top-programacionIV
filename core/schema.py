@@ -1,3 +1,4 @@
+# core/schema.py
 import graphene
 from graphene_django import DjangoObjectType
 
@@ -82,15 +83,24 @@ class ClienteMovilLocalType(DjangoObjectType):
         
 # Query compleja
 class Query(graphene.ObjectType):
-
-    # Consulta principal
     compras_por_cliente_movil_local = graphene.List(
         CompraType,
-        cliente_id=graphene.Int(required=True)
+        dni=graphene.Int(required=False),
+        cliente_id=graphene.Int(required=False)
     )
 
-    def resolve_compras_por_cliente_movil_local(root, info, cliente_id):
-        return Compra.objects.filter(id_cliente_movil_local=cliente_id)
+    def resolve_compras_por_cliente_movil_local(self, info, dni=None, cliente_id=None):
+        if dni:
+            cliente = ClienteMovilLocal.objects.filter(dni_cliente_movil_local=dni).first()
+            if not cliente:
+                return []
+            return Compra.objects.filter(id_cliente_movil_local=cliente.id)
+        
+        if cliente_id:
+            return Compra.objects.filter(id_cliente_movil_local=cliente_id)
+
+        return []
+
     
 
 schema = graphene.Schema(query=Query)
