@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'rest_framework', # Yo
     'corsheaders', # Yo
     'whitenoise', # Yo
-
+     "graphene_django", # Yo
 
 ]
 
@@ -198,3 +198,6 @@ SIMPLE_JWT = {
 
 FIREBASE_CREDENTIALS_PATH = BASE_DIR / "moto_api" / "firebase" / "credenciales.json"
 
+GRAPHENE = {
+    "SCHEMA": "core.schema.schema"
+}

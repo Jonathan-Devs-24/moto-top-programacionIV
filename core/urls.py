@@ -9,7 +9,9 @@ from .views import (
 )
 from .views import crear_admin, usuario_actual, productos_en_promocion
 from . import views
-
+from django.urls import path
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
 
 
 router = routers.DefaultRouter()
@@ -58,4 +60,6 @@ urlpatterns = [
 
     path('solicitud/<int:solicitud_id>/aceptar/', views.aceptar_solicitud),
 
+       path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    
 ] 
